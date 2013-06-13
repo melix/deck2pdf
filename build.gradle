@@ -1,0 +1,22 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'application'
+
+group = 'me.champeau.me.champeau.deck2pdf'
+version = '0.1-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+def javafxHome = System.getenv('JAVA_HOME')
+
+dependencies {
+    compile files("$javafxHome/jre/lib/jfxrt.jar")
+    compile 'com.itextpdf:itextpdf:5.4.2'
+}
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+mainClassName = 'me.champeau.deck2pdf.Main'
