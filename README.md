@@ -23,4 +23,4 @@ Ex:
 
 Optionally, you can specify width and height:
 
-```deck2pdf --width 1024 --height 768 slides.html slides.pdf```
+```deck2pdf --width=1024 --height=768 slides.html slides.pdf```
