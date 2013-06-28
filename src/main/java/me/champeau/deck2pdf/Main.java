@@ -39,8 +39,8 @@ public class Main extends Application {
     private Scene scene;
     @Override public void start(Stage stage) {
         Map opts = getParameters().getNamed();
-        int width = (Integer) (opts.get("width")!=null?opts.get("width"):WIDTH);
-        int height = (Integer) (opts.get("height")!=null?opts.get("height"):HEIGHT);
+        int width = getIntParameter(opts, "width", WIDTH);
+        int height = getIntParameter(opts, "height", HEIGHT);
 
         stage.setTitle("PDF Export Web View");
         List<String> unnamed = getParameters().getUnnamed();
@@ -65,6 +65,19 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
         browser.doExport();
+    }
+
+    private int getIntParameter(Map opts, String paramName, int defaultValue) {
+        String tmp  = (String) opts.get(paramName);
+        int val;
+        try {
+            val = Integer.parseInt(tmp);
+        }
+        catch (NumberFormatException nfe) {
+            System.err.println(opts.get(paramName) + " is no valid number for "+ paramName + ", assuming " + defaultValue);
+            val = defaultValue;
+        }
+        return val;
     }
 
     public static void main(String[] args){
