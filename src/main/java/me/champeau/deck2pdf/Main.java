@@ -8,6 +8,7 @@ import javafx.scene.paint.Color;
 
 import java.io.File;
 import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
 
@@ -48,23 +49,31 @@ public class Main extends Application {
             System.err.println("You must provide at least the name of the file to convert");
             System.exit(-1);
         }
-        String url = null;
+        String path = null;
+        String firstArg = unnamed.get(0);
         try {
-            url = new File(unnamed.get(0)).toURI().toURL().toString();
+            URL url = new URL(firstArg);
+            path = url.toString();
         } catch (MalformedURLException e) {
-            System.err.println("Unable to load source file:" + e.getMessage());
-            System.exit(-1);
+            String url = null;
+            try {
+                path = new File(firstArg).toURI().toURL().toString();
+            } catch (MalformedURLException e2) {
+                System.err.println("Unable to load source file:" + e2.getMessage());
+                System.exit(-1);
+            }
         }
 
         String output = "output.pdf";
         if (unnamed.size()>1) {
             output = unnamed.get(1);
         }
-        Browser browser = new Browser(url, output, width, height);
+        Browser browser = new Browser(path, output, width, height);
         scene = new Scene(browser, width, height, Color.web("#666970"));
         stage.setScene(scene);
         stage.show();
-        browser.doExport();
+        Profile profile = ProfileLoader.loadProfile((String) opts.get("profile"), browser.getEngine());
+        browser.doExport(profile);
     }
 
     public static void main(String[] args){

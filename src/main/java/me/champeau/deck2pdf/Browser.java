@@ -20,6 +20,10 @@ import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.pdf.PdfWriter;
 import javafx.animation.PauseTransition;
+import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Worker;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -55,13 +59,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * This class is responsible for converting a slide deck into a PDF file. It performs the following:
- *
- * <ul>
- *     <li>opens a web view with the slide deck</li>
- *     <li>captures each slide after one second</li>
- *     <li>puts the capture into a PDF file</li>
- *     <li>exits the VM</li>
- * </ul>
+ * <p/>
+ * <ul> <li>opens a web view with the slide deck</li> <li>captures each slide after one second</li> <li>puts the capture
+ * into a PDF file</li> <li>exits the VM</li> </ul>
  *
  * @author Cédric Champeau
  */
@@ -86,13 +86,17 @@ class Browser extends Region {
         this.height = height;
     }
 
-    private void handleError(Exception e) {
-        throw new RuntimeException("Unable to export to PDF",e);
+    public WebEngine getEngine() {
+        return webEngine;
     }
 
-    public void doExport() {
+    private void handleError(Exception e) {
+        throw new RuntimeException("Unable to export to PDF", e);
+    }
+
+    public void doExport(final Profile profile) {
         final PauseTransition pt = new PauseTransition();
-        pt.setDuration(Duration.millis(1000));
+        pt.setDuration(Duration.millis(profile.getPause()));
         final AtomicInteger cpt = new AtomicInteger();
         final Document document = new Document();
         document.setPageSize(PageSize.A4.rotate());
@@ -106,46 +110,59 @@ class Browser extends Region {
         pt.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
-                Integer nbSlides = (Integer) webEngine.executeScript("$.deck('getSlides').length");
                 WritableImage image = browser.snapshot(null, null);
                 BufferedImage bufferedImage = SwingFXUtils.fromFXImage(image, null);
                 double scaler = ((document.getPageSize().getWidth() - document.leftMargin()
-                        - document.rightMargin() - 0) / image.getWidth()) * 100;
+                        - document.rightMargin()) / image.getWidth()) * 100;
 
                 try {
                     com.itextpdf.text.Image image2 =
                             com.itextpdf.text.Image.getInstance(bufferedImage, null);
-                    image2.scalePercent((float)scaler);
+                    image2.scalePercent((float) scaler);
                     document.add(image2);
                     document.newPage();
-                    webEngine.executeScript("$.deck('next')");
+                    profile.nextSlide();
                     int current = cpt.incrementAndGet();
-                    System.out.println("Exported slide " + current+ "/"+nbSlides);
-                    if (current <= nbSlides) {
+                    int nbSlides = profile.getSlideCount();
+                    System.out.println("Exported slide " + current + (nbSlides > 0 ? "/" + nbSlides : ""));
+                    if (!profile.isLastSlide(current)) {
+                        pt.setDuration(Duration.millis(profile.getPause()));
                         pt.play();
                     } else {
                         document.close();
-                        System.exit(0);
+                        System.out.println("Export complete.");
+                        Platform.exit();
                     }
                 } catch (IOException | DocumentException e) {
                     handleError(e);
                 }
             }
         });
-        pt.play();
+        webEngine.getLoadWorker().stateProperty().addListener(
+                new ChangeListener<Worker.State>() {
+                    public void changed(ObservableValue ov, Worker.State oldState, Worker.State newState) {
+                        if (newState == Worker.State.SUCCEEDED) {
+                            profile.setup();
+                            pt.play();
+                        }
+                    }
+                });
     }
 
-    @Override protected void layoutChildren() {
+    @Override
+    protected void layoutChildren() {
         double w = getWidth();
         double h = getHeight();
-        layoutInArea(browser,0,0,w,h,0, HPos.CENTER, VPos.CENTER);
+        layoutInArea(browser, 0, 0, w, h, 0, HPos.CENTER, VPos.CENTER);
     }
 
-    @Override protected double computePrefWidth(double height) {
+    @Override
+    protected double computePrefWidth(double height) {
         return width;
     }
 
-    @Override protected double computePrefHeight(double width) {
+    @Override
+    protected double computePrefHeight(double width) {
         return height;
     }
 }
