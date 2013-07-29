@@ -40,8 +40,8 @@ public class Main extends Application {
     private Scene scene;
     @Override public void start(Stage stage) {
         Map opts = getParameters().getNamed();
-        int width = (Integer) (opts.get("width")!=null?opts.get("width"):WIDTH);
-        int height = (Integer) (opts.get("height")!=null?opts.get("height"):HEIGHT);
+        int width = opts.get("width")!=null?Integer.valueOf((String) opts.get("width")):WIDTH;
+        int height = opts.get("height")!=null?Integer.valueOf((String) opts.get("height")):HEIGHT;
 
         stage.setTitle("PDF Export Web View");
         List<String> unnamed = getParameters().getUnnamed();

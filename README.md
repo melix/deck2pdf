@@ -23,6 +23,7 @@ By default, deck2pdf assumes that you are using deck.js, but there are currently
 * deckjs, for [deck.js](http://imakewebthings.com/deck.js/)
 * revealjs, for [reveal.js]http://lab.hakim.se/reveal-js
 * impressjs, for [impress.js]http://bartaz.github.io/impress.js
+* dzslides, for [DZSlides]https://github.com/paulrouget/dzslides
 
 For example, to convert a Deck.js slidedeck into PDF:
 

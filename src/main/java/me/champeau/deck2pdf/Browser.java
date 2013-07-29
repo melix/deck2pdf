@@ -80,7 +80,7 @@ class Browser extends Region {
         webEngine.load(rootURL);
         //add the web view to the scene
         getChildren().add(browser);
-        browser.setFontSmoothingType(FontSmoothingType.LCD);
+        browser.setFontSmoothingType(FontSmoothingType.GRAY);
         this.exportFile = export;
         this.width = width;
         this.height = height;
