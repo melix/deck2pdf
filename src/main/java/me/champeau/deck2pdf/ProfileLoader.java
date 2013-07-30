@@ -17,6 +17,9 @@ package me.champeau.deck2pdf;
 
 import javafx.scene.web.WebEngine;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -40,8 +43,19 @@ public class ProfileLoader {
                 result = loadProfileFromGroovy(resource, engine);
             }
         }
+        try {
+            if (profile.endsWith(".properties")) {
+                resource = new BufferedInputStream(new FileInputStream(profile));
+                result = loadProfileFromPropertiesFile(resource, engine);
+            } else if (profile.endsWith(".groovy")) {
+                resource = new BufferedInputStream(new FileInputStream(profile));
+                result = loadProfileFromGroovy(resource, engine);
+            }
+        } catch (FileNotFoundException e) {
+            result = null;
+        }
         if (result==null) {
-            throw new RuntimeException("Cannot find a profile named '"+profile+"' on classpath");
+            throw new RuntimeException("Cannot find a profile named '"+profile);
         }
         return result;
     }
