@@ -6,7 +6,7 @@
 
 `deck2pdf` is a simple application that will convert your http://imakewebthings.com/deck.js/[deck.js],
  http://lab.hakim.se/reveal-js[reveal.js], http://bartaz.github.io/impress.js[impress.js],
- http://http://flowtime-js.marcolago.com/[Flowtime.js]
+ http://flowtime-js.marcolago.com/[Flowtime.js]
   or https://github.com/paulrouget/dzslides[DZSlides] slide deck into a PDF file. Deck2PDF is also capable
   of handling other HTML5 libraries as long as you feed it <<CustomProfiles,with a profile>>.
 
@@ -34,7 +34,7 @@ By default, deck2pdf assumes that you are using deck.js, but there more profiles
 * revealjs, for http://lab.hakim.se/reveal-js[reveal.js]
 * impressjs, for http://bartaz.github.io/impress.js[impress.js]
 * dzslides, for https://github.com/paulrouget/dzslides[DZSlides]
-* flowtimejs, for http://http://flowtime-js.marcolago.com/[Flowtime.js]
+* flowtimejs, for http://flowtime-js.marcolago.com/[Flowtime.js]
 
 For example, to convert a Deck.js slidedeck into PDF:
 
