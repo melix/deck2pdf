@@ -48,7 +48,13 @@ public class GroovyProfile extends Profile {
     }
 
     public Object executeJS(String code) {
-        return engine.executeScript(code);
+        try {
+            return engine.executeScript(code);
+        } catch (netscape.javascript.JSException e) {
+            System.err.println("Error while executing the following code:");
+            System.err.println(code);
+            throw e;
+        }
     }
 
     @Override

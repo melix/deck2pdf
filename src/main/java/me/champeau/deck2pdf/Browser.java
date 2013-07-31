@@ -121,11 +121,11 @@ class Browser extends Region {
                     image2.scalePercent((float) scaler);
                     document.add(image2);
                     document.newPage();
-                    profile.nextSlide();
                     int current = cpt.incrementAndGet();
                     int nbSlides = profile.getSlideCount();
                     System.out.println("Exported slide " + current + (nbSlides > 0 ? "/" + nbSlides : ""));
                     if (!profile.isLastSlide(current)) {
+                        profile.nextSlide();
                         pt.setDuration(Duration.millis(profile.getPause()));
                         pt.play();
                     } else {
