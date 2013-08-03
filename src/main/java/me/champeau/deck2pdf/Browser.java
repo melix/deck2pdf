@@ -18,6 +18,7 @@ package me.champeau.deck2pdf;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Rectangle;
 import com.itextpdf.text.pdf.PdfWriter;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
@@ -94,12 +95,11 @@ class Browser extends Region {
         throw new RuntimeException("Unable to export to PDF", e);
     }
 
-    public void doExport(final Profile profile) {
+    public void doExport(final Profile profile, final int width, final int height) {
         final PauseTransition pt = new PauseTransition();
         pt.setDuration(Duration.millis(profile.getPause()));
         final AtomicInteger cpt = new AtomicInteger();
-        final Document document = new Document();
-        document.setPageSize(PageSize.A4.rotate());
+        final Document document = new Document(new Rectangle(width, height), 0, 0, 0, 0);
         try {
             PdfWriter.getInstance(document, new FileOutputStream(exportFile));
         } catch (DocumentException | FileNotFoundException e) {
