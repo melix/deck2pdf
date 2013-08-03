@@ -196,3 +196,66 @@ deck2pdf --profile=/path/to/profile.groovy slides.html slides.pdf
 ----
 
 Of course, you can submit a pull request so that we include your profile into the distribution!
+
+== Custom fonts
+
+You'll need to read this section if you have custom fonts in your presenation.
+
+=== JavaFX 3.0: CSS3 @font-face
+
+In order to use custom fonts in your presentation, as defined using the CSS3 +@font-face@, you need to use at least JavaFX 3.0 (available in JDK 8). Otherwise, the embedded browser will fall back to using the default system font. 
+
+Here's an example custom font sourced from http://www.google.com/fonts[Google Fonts]:
+
+[source,html]
+----
+<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,700">
+----
+
+This link element imports the following CSS:
+
+[source,css]
+----
+@font-face {
+  font-family: 'Yanone Kaffeesatz';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Yanone Kaffeesatz Regular'), local('YanoneKaffeesatz-Regular'), url(http://themes.googleusercontent.com/static/fonts/yanonekaffeesatz/v4/YDAoLskQQ5MOAgvHUQCcLbvy90DtE_Pg_qiF9bHvTzw.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Yanone Kaffeesatz';
+  font-style: normal;
+  font-weight: 700;
+  src: local('Yanone Kaffeesatz Bold'), local('YanoneKaffeesatz-Bold'), url(http://themes.googleusercontent.com/static/fonts/yanonekaffeesatz/v4/We_iSDqttE3etzfdfhuPRUgbSk09ekaEjkXjfj0Ujx8.ttf) format('truetype');
+}
+----
+
+You can now use these two combinations of +font-family+, +font-style+ and +font-weight+ in your presentation. Unlike a normal browser (e.g., Chrome, Firefox, etc), you cannot use a font combination that is not represented here (or on your system). If you attempt to use a combination not represented here (such as a combination that include `font-style: italic;`), the embedded browser will fall back to using the default font.
+
+Aside from that exception, custom fonts should just work when using JavaFX 3.0.
+
+=== JavaFX 2.2: Explicit font loading
+
+If you you're using JavaFX 2.2 (available in JDK 7), you can still use custom fonts, but you must load them explicitly before the embedded browser loads the presentation.
+
+First, download the TTF file for each font you want to use and copy it to +src/main/resources+. The files should be named using the hyphenated form shown in the CSS above. For example:
+
+* YanoneKaffeesatz-Regular.ttf
+* YanoneKaffeesatz-Bold.ttf
+
+Next, open the +Browser.java+ source file and add the following declarations at the top of the constructor. These declarations load the fonts from the classpath:
+
+[source,java]
+----
+Font.loadFont(getClass().getClassLoader().getResourceAsStream("YanoneKaffeesatz-Regular.ttf"), -1);
+Font.loadFont(getClass().getClassLoader().getResourceAsStream("YanoneKaffeesatz-Bold.ttf"), -1);
+----
+
+Don't forget to add the following import to the +Browser.java+ source file:
+
+[source,java]
+----
+import javafx.scene.text.Font;
+----
+
+Finally, build the deck2pdf distribution. You'll now be able to use the YanoneKaffeesatz font in your presentation when using JavaFX 2.2.
