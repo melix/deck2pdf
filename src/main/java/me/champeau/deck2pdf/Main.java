@@ -73,7 +73,7 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.show();
         Profile profile = ProfileLoader.loadProfile((String) opts.get("profile"), browser.getEngine());
-        browser.doExport(profile);
+        browser.doExport(profile, width, height);
     }
 
     public static void main(String[] args){
