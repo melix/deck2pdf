@@ -14,7 +14,7 @@ This application relies on a JavaFX application, so you need at least a Java 7 i
 
 == Install
 
-image::http://travis-ci.org/melix/deck2pdf.png[Build Status, link="http://travis-ci.org/melix/deck2pdf"]
+image::https://travis-ci.org/melix/deck2pdf.png?branch=master[Build Status, link="https://travis-ci.org/melix/deck2pdf"]
 
 ----
 ./gradlew distZip
