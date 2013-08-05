@@ -18,6 +18,8 @@ package me.champeau.deck2pdf;
 import com.itextpdf.text.Document;
 import javafx.scene.web.WebEngine;
 
+import java.util.Map;
+
 /**
  * A profile describes how the browser will interact with the slide deck
  * in order to switch from one slide to another and eventually finish the
@@ -31,11 +33,13 @@ public abstract class Profile {
 
     protected static final int DEFAULT_PAUSE_MILLIS = 1000;
     protected final WebEngine engine;
+    protected final Map<String, ?> options;
 
     protected Document document;
 
-    protected Profile(final WebEngine engine) {
+    protected Profile(final WebEngine engine, final Map<String, ?> options) {
         this.engine = engine;
+        this.options = options;
     }
 
     public void setDocument(final Document document) {

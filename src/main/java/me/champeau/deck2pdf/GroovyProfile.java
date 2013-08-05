@@ -24,6 +24,7 @@ import javafx.scene.web.WebEngine;
 import org.codehaus.groovy.runtime.MethodClosure;
 
 import java.io.Reader;
+import java.util.Map;
 
 /**
  * The Groovy provide can be used for complex interactions with the web engine. The Groovy script consists
@@ -40,11 +41,12 @@ import java.io.Reader;
  */
 public class GroovyProfile extends Profile {
     private final Binding binding;
-    protected GroovyProfile(final WebEngine engine, final Reader script) {
-        super(engine);
+    protected GroovyProfile(final WebEngine engine, final Map<String,?> options, final Reader script) {
+        super(engine, options);
         binding = new NullBinding();
         binding.setVariable("engine", engine);
         binding.setVariable("js", new MethodClosure(this, "executeJS"));
+        binding.setVariable("options", options);
         new GroovyShell(binding).evaluate(script);
     }
 

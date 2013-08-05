@@ -39,9 +39,9 @@ public class Main extends Application {
 
     private Scene scene;
     @Override public void start(Stage stage) {
-        Map opts = getParameters().getNamed();
-        int width = opts.get("width")!=null?Integer.valueOf((String) opts.get("width")):WIDTH;
-        int height = opts.get("height")!=null?Integer.valueOf((String) opts.get("height")):HEIGHT;
+        Map<String,String> opts = getParameters().getNamed();
+        int width = parseArgumentAsInt(opts, "width", WIDTH);
+        int height = parseArgumentAsInt(opts, "height", HEIGHT);
 
         stage.setTitle("PDF Export Web View");
         List<String> unnamed = getParameters().getUnnamed();
@@ -72,8 +72,12 @@ public class Main extends Application {
         scene = new Scene(browser, width, height, Color.web("#666970"));
         stage.setScene(scene);
         stage.show();
-        Profile profile = ProfileLoader.loadProfile((String) opts.get("profile"), browser.getEngine());
+        Profile profile = ProfileLoader.loadProfile(opts.get("profile"), browser.getEngine(), opts);
         browser.doExport(profile, width, height);
+    }
+
+    private int parseArgumentAsInt(final Map<String, String> opts, String key, int defaultValue) {
+        return opts.get(key)!=null?Integer.valueOf(opts.get(key)):defaultValue;
     }
 
     public static void main(String[] args){

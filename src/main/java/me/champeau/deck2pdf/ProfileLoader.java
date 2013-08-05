@@ -23,33 +23,34 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.Map;
 import java.util.Properties;
 
 public class ProfileLoader {
     private static final String DEFAULT_PROFILE = "deckjs";
 
-    public static Profile loadProfile(final String profile, final WebEngine engine) {
+    public static Profile loadProfile(final String profile, final WebEngine engine, final Map<String,?> options) {
         if (profile==null) {
-            return loadProfile(DEFAULT_PROFILE, engine);
+            return loadProfile(DEFAULT_PROFILE, engine, options);
         }
         Profile result = null;
         ClassLoader loader = ProfileLoader.class.getClassLoader();
         InputStream resource = loader.getResourceAsStream(profile + ".properties");
         if (resource!=null) {
-            result = loadProfileFromPropertiesFile(resource, engine);
+            result = loadProfileFromPropertiesFile(resource, engine, options);
         } else {
             resource = loader.getResourceAsStream(profile + ".groovy");
             if (resource!=null) {
-                result = loadProfileFromGroovy(resource, engine);
+                result = loadProfileFromGroovy(resource, engine, options);
             }
         }
         try {
             if (profile.endsWith(".properties")) {
                 resource = new BufferedInputStream(new FileInputStream(profile));
-                result = loadProfileFromPropertiesFile(resource, engine);
+                result = loadProfileFromPropertiesFile(resource, engine, options);
             } else if (profile.endsWith(".groovy")) {
                 resource = new BufferedInputStream(new FileInputStream(profile));
-                result = loadProfileFromGroovy(resource, engine);
+                result = loadProfileFromGroovy(resource, engine, options);
             }
         } catch (FileNotFoundException e) {
             result = null;
@@ -60,14 +61,15 @@ public class ProfileLoader {
         return result;
     }
 
-    private static GroovyProfile loadProfileFromGroovy(final InputStream resource, final WebEngine engine) {
+    private static GroovyProfile loadProfileFromGroovy(final InputStream resource, final WebEngine engine, final Map<String,?> options) {
         return new GroovyProfile(
               engine,
+              options,
               new InputStreamReader(resource)
         );
     }
 
-    private static Profile loadProfileFromPropertiesFile(final InputStream resource, final WebEngine engine) {
+    private static Profile loadProfileFromPropertiesFile(final InputStream resource, final WebEngine engine, final Map<String,?> options) {
         Properties props = new Properties();
         try {
             props.load(resource);
@@ -78,7 +80,7 @@ public class ProfileLoader {
         String nextSlide = findProperty(props,"nextSlide");
         String pause = props.getProperty("pause");
 
-        JSProfile result = new JSProfile(engine, totalSlides, nextSlide);
+        JSProfile result = new JSProfile(engine, options, totalSlides, nextSlide);
         if (pause!=null) {
             result.setPause(Integer.valueOf(pause));
         }

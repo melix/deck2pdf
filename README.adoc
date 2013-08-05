@@ -187,6 +187,32 @@ pause = 2000
 
 The file name for a Groovy profile *must* end with `.groovy`.
 
+===== Accessing command line options
+
+It is possible for a Groovy profile to access command line options. This can be useful if you want the profile to be
+configurable from command line. Accessing the command line options is easy, since the named parameters from the
+command line are directly exported in the script through the `options` variable:
+
+[source,groovy]
+----
+setup {
+    if (Boolean.valueOf(options.verbose)) {
+        // --verbose=true on command line
+        println "Hello, I'm in verbose mode!"
+    }
+    String mode = options.mode?:'auto'
+    switch (mode) {
+        case 'auto':
+            ...
+            break;
+        case 'skip':
+            ...
+            break;
+    }
+
+}
+----
+
 === Using a custom profile
 
 Once you've written a new profile, you can use it with the `--profile` switch:

@@ -17,6 +17,8 @@ package me.champeau.deck2pdf;
 
 import javafx.scene.web.WebEngine;
 
+import java.util.Map;
+
 /**
  * Base class for profiles that leverage Javascript to get the total number of slides
  * and jump to the next slide.
@@ -33,9 +35,10 @@ public class JSProfile extends Profile {
 
     public JSProfile(
             WebEngine engine,
+            Map<String,?> options,
             String slideCountJS,
             String nextSlideJS) {
-        super(engine);
+        super(engine, options);
         this.slideCountJS = slideCountJS;
         this.nextSlideJS = nextSlideJS;
     }
