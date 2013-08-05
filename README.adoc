@@ -54,6 +54,19 @@ Optionally, you can specify width and height:
 deck2pdf --width=1024 --height=768 slides.html slides.pdf
 ----
 
+== Profile specific options
+
+Some profiles have specific command line options that allow further configuration of the export. This section summarizes
+the options available for such profiles.
+
+=== reveal.js
+
+[cols="1,3,1,1",options="header,footer"]
+|=======================================================================
+|Option|Behavior|Default|Example
+|skipFragments|If `true`, fragments will be ignored, otherwise each fragment will generate an individual slide|false|`deck2pdf --skipFragments=true revealjs.html`
+|=======================================================================
+
 [[CustomProfiles]]
 == Support for other HTML5 slideshows
 
