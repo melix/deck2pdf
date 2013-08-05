@@ -15,6 +15,7 @@
  */
 package me.champeau.deck2pdf;
 
+import com.itextpdf.text.Document;
 import javafx.scene.web.WebEngine;
 
 /**
@@ -31,8 +32,14 @@ public abstract class Profile {
     protected static final int DEFAULT_PAUSE_MILLIS = 1000;
     protected final WebEngine engine;
 
+    protected Document document;
+
     protected Profile(final WebEngine engine) {
         this.engine = engine;
+    }
+
+    public void setDocument(final Document document) {
+        this.document = document;
     }
 
     /**
@@ -68,4 +75,10 @@ public abstract class Profile {
      * Called before the slides capture starts.
      */
     public void setup() {}
+
+    /**
+     * Called before the export is closed, gives the profile chances to cleanup
+     * extra resources or perform additional tasks before the pdf file gets closed.
+     */
+    public void finish() {}
 }

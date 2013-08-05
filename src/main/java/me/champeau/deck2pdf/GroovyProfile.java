@@ -15,6 +15,7 @@
  */
 package me.champeau.deck2pdf;
 
+import com.itextpdf.text.Document;
 import groovy.lang.Binding;
 import groovy.lang.Closure;
 import groovy.lang.GroovyShell;
@@ -55,6 +56,12 @@ public class GroovyProfile extends Profile {
             System.err.println(code);
             throw e;
         }
+    }
+
+    @Override
+    public void setDocument(final Document document) {
+        super.setDocument(document);
+        binding.setVariable("document", document);
     }
 
     @Override
@@ -99,6 +106,14 @@ public class GroovyProfile extends Profile {
     @Override
     public void setup() {
         Closure fun = (Closure) binding.getVariable("setup");
+        if (fun!=null){
+            fun.call();
+        }
+    }
+
+    @Override
+    public void finish() {
+        Closure fun = (Closure) binding.getVariable("finish");
         if (fun!=null){
             fun.call();
         }

@@ -107,6 +107,7 @@ class Browser extends Region {
             return;
         }
         document.open();
+        profile.setDocument(document);
         pt.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -129,6 +130,7 @@ class Browser extends Region {
                         pt.setDuration(Duration.millis(profile.getPause()));
                         pt.play();
                     } else {
+                        profile.finish();
                         document.close();
                         System.out.println("Export complete.");
                         Platform.exit();
