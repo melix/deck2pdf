@@ -264,24 +264,13 @@ Aside from that exception, custom fonts should just work when using JavaFX 3.0.
 
 If you you're using JavaFX 2.2 (available in JDK 7), you can still use custom fonts, but you must load them explicitly before the embedded browser loads the presentation.
 
-First, download the TTF file for each font you want to use and copy it to +src/main/resources+. The files should be named using the hyphenated form shown in the CSS above. For example:
+First, download the TTF file for each font you want to use and copy it to a directory of your choice. The files should be named using the hyphenated form shown in the CSS above. For example:
 
 * YanoneKaffeesatz-Regular.ttf
 * YanoneKaffeesatz-Bold.ttf
 
-Next, open the +Browser.java+ source file and add the following declarations at the top of the constructor. These declarations load the fonts from the classpath:
+Now you can use the `fontsdir` command line option to tell `deck2pdf` where to load the fonts from:
 
-[source,java]
 ----
-Font.loadFont(getClass().getClassLoader().getResourceAsStream("YanoneKaffeesatz-Regular.ttf"), -1);
-Font.loadFont(getClass().getClassLoader().getResourceAsStream("YanoneKaffeesatz-Bold.ttf"), -1);
+deck2pdf --fontsdir=/path/to/ttf/files slides.html slides.pdf
 ----
-
-Don't forget to add the following import to the +Browser.java+ source file:
-
-[source,java]
-----
-import javafx.scene.text.Font;
-----
-
-Finally, build the deck2pdf distribution. You'll now be able to use the YanoneKaffeesatz font in your presentation when using JavaFX 2.2.

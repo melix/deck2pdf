@@ -2,11 +2,15 @@ package me.champeau.deck2pdf;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 
 import javafx.scene.paint.Color;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FilenameFilter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -33,6 +37,8 @@ import java.util.Map;
  * @author Cédric Champeau
  */
 public class Main extends Application {
+
+    private final static String FONTS_DIRECTORY_OPTION = "fontsdir";
 
     public static final int WIDTH = 1500;
     public static final int HEIGHT = 1000;
@@ -68,12 +74,39 @@ public class Main extends Application {
         if (unnamed.size()>1) {
             output = unnamed.get(1);
         }
+
+        loadCustomFonts(opts);
+
         Browser browser = new Browser(path, output, width, height);
         scene = new Scene(browser, width, height, Color.web("#666970"));
         stage.setScene(scene);
         stage.show();
         Profile profile = ProfileLoader.loadProfile(opts.get("profile"), browser.getEngine(), opts);
         browser.doExport(profile, width, height);
+    }
+
+
+    /**
+     * JavaFX 2.2 does not support CSS3 @font-face so this is a workaround that allows loading
+     * custom fonts from a directory specified on command line. The key for the command line
+     * option is 'fontsdir'
+     * @param opts the command line options
+     */
+    private static void loadCustomFonts(final Map<String, String> opts) {
+        String fontsDir = opts.get(FONTS_DIRECTORY_OPTION);
+        if (fontsDir!=null) {
+            File dir = new File(fontsDir);
+            for (File font : dir.listFiles()) {
+                if (font.isFile()) {
+                    try {
+                        Font.loadFont(new FileInputStream(font), -1);
+                        System.out.println("Loaded font " + font);
+                    } catch (FileNotFoundException e) {
+                        System.err.println("Unable to load font from file "+font);
+                    }
+                }
+            }
+        }
     }
 
     private int parseArgumentAsInt(final Map<String, String> opts, String key, int defaultValue) {
