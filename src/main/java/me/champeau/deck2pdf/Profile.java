@@ -85,4 +85,17 @@ public abstract class Profile {
      * extra resources or perform additional tasks before the pdf file gets closed.
      */
     public void finish() {}
+
+
+    /**
+     * This method is called once setup is complete and deck2pdf is ready to export.
+     * The action is a {@link Runnable} that will start the export of slides.
+     * Advanced profiles may capture the action instead if directly running it, for
+     * example if the slide deck defers loading of slides with javascript, in which
+     * case export should be triggered from javascript instead of from deck2pdf itself.
+     * @param action the action that will start the export
+     */
+    public void ready(Runnable action) {
+        action.run();
+    }
 }

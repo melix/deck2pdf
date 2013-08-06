@@ -21,6 +21,8 @@ import groovy.lang.Closure;
 import groovy.lang.GroovyShell;
 import groovy.lang.MissingPropertyException;
 import javafx.scene.web.WebEngine;
+import netscape.javascript.JSObject;
+import org.codehaus.groovy.runtime.DefaultGroovyMethods;
 import org.codehaus.groovy.runtime.MethodClosure;
 
 import java.io.Reader;
@@ -48,6 +50,14 @@ public class GroovyProfile extends Profile {
         binding.setVariable("js", new MethodClosure(this, "executeJS"));
         binding.setVariable("options", options);
         new GroovyShell(binding).evaluate(script);
+    }
+
+    public Object getVariable(final String name) {
+        return binding.getVariable(name);
+    }
+
+    public void setVariable(final String name, final Object value) {
+        binding.setVariable(name, value);
     }
 
     public Object executeJS(String code) {
@@ -107,10 +117,19 @@ public class GroovyProfile extends Profile {
 
     @Override
     public void setup() {
+        prepareEngine();
         Closure fun = (Closure) binding.getVariable("setup");
         if (fun!=null){
             fun.call();
         }
+    }
+
+    private void prepareEngine() {
+        JSObject window = (JSObject) engine.executeScript("window");
+        window.setMember("exportProfile", this);
+
+        // uncomment this for debugging
+//        engine.executeScript("if (!document.getElementById('FirebugLite')){E = document['createElement' + 'NS'] && document.documentElement.namespaceURI;E = E ? document['createElement' + 'NS'](E, 'script') : document['createElement']('script');E['setAttribute']('id', 'FirebugLite');E['setAttribute']('src', 'https://getfirebug.com/' + 'firebug-lite.js' + '#startOpened');E['setAttribute']('FirebugLite', '4');(document['getElementsByTagName']('head')[0] || document['getElementsByTagName']('body')[0]).appendChild(E);E = new Image;E['setAttribute']('src', 'https://getfirebug.com/' + '#startOpened');}");
     }
 
     @Override
@@ -118,6 +137,14 @@ public class GroovyProfile extends Profile {
         Closure fun = (Closure) binding.getVariable("finish");
         if (fun!=null){
             fun.call();
+        }
+    }
+
+    @Override
+    public void ready(Runnable r) {
+        Closure fun = (Closure) binding.getVariable("ready");
+        if (fun!=null){
+            fun.call(r);
         }
     }
 

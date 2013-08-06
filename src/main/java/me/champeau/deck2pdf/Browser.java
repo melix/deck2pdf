@@ -145,7 +145,7 @@ class Browser extends Region {
                     public void changed(ObservableValue ov, Worker.State oldState, Worker.State newState) {
                         if (newState == Worker.State.SUCCEEDED) {
                             profile.setup();
-                            pt.play();
+                            profile.ready(new Runnable() { public void run() { pt.play(); } });
                         }
                     }
                 });
