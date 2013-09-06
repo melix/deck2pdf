@@ -145,6 +145,8 @@ public class GroovyProfile extends Profile {
         Closure fun = (Closure) binding.getVariable("ready");
         if (fun!=null){
             fun.call(r);
+        } else {
+            super.ready(r);
         }
     }
 
