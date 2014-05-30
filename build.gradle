@@ -3,7 +3,7 @@ apply plugin: 'idea'
 apply plugin: 'application'
 
 group = 'me.champeau.me.champeau.deck2pdf'
-version = '0.1'
+version = '0.2-SNAPSHOT'
 
 repositories {
     jcenter()
