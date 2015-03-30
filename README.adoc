@@ -39,6 +39,7 @@ By default, deck2pdf assumes that you are using deck.js, but there more profiles
 * flowtimejs, for http://flowtime-js.marcolago.com/[Flowtime.js]
 * googlehtml5, for http://code.google.com/p/html5slides/[Google html5slides]
 * spf, for https://github.com/briancavalier/slides[Slide Presentation Framework]
+* remarkjs, for https://github.com/gnab/remark[remark.js]
 
 For example, to convert a Deck.js slidedeck into PDF:
 
@@ -57,6 +58,8 @@ Optionally, you can specify width and height:
 ----
 deck2pdf --width=1024 --height=768 slides.html slides.pdf
 ----
+
+For a remark.js slideshow, make sure you use `window.slideshow = remark.create();` to initialize the slideshow
 
 == Profile specific options
 
@@ -246,7 +249,7 @@ You'll need to read this section if you have custom fonts in your presenation.
 
 === JavaFX 3.0: CSS3 @font-face
 
-In order to use custom fonts in your presentation, as defined using the CSS3 +@font-face@, you need to use at least JavaFX 3.0 (available in JDK 8). Otherwise, the embedded browser will fall back to using the default system font. 
+In order to use custom fonts in your presentation, as defined using the CSS3 +@font-face@, you need to use at least JavaFX 3.0 (available in JDK 8). Otherwise, the embedded browser will fall back to using the default system font.
 
 Here's an example custom font sourced from http://www.google.com/fonts[Google Fonts]:
 
