@@ -1,8 +1,9 @@
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'application'
+apply plugin: 'maven-publish'
 
-group = 'me.champeau.me.champeau.deck2pdf'
+group = 'me.champeau.deck2pdf'
 version = '0.2-SNAPSHOT'
 
 repositories {
@@ -14,10 +15,12 @@ def javafxHome = System.getenv('JAVA_HOME')
 dependencies {
     compile files("$javafxHome/jre/lib/jfxrt.jar")
     compile 'com.itextpdf:itextpdf:5.5.1'
-    compile 'org.codehaus.groovy:groovy:2.3.2'
+    compile 'org.codehaus.groovy:groovy:2.4.3'
 }
 
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 mainClassName = 'me.champeau.deck2pdf.Main'
+
+apply from: 'gradle/publish.gradle'
