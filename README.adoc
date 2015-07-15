@@ -59,6 +59,27 @@ Optionally, you can specify width and height:
 deck2pdf --width=1024 --height=768 slides.html slides.pdf
 ----
 
+To export the slides as multiple images (PNG or JPG), change the file extension of the export file to .png or .jpg.
+
+----
+deck2pdf slides.html slides.png
+----
+
+You can use a number pattern in the file name (e.g., `%03d`) to have the slide numbers padded so they have a fixed length:
+
+----
+deck2pdf slides.html slides-%03d.png
+----
+
+You can also specify a quality option for JPG (default: 0.95):
+
+----
+deck2pdf --quality=75 slides.html slides.jpg
+----
+
+WARNING: The JPG export is not available when using OpenJDK.
+You must use the Oracle JDK instead.
+
 For a remark.js slideshow, make sure you use `window.slideshow = remark.create();` to initialize the slideshow
 
 == Profile specific options

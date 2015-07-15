@@ -10,7 +10,6 @@ import javafx.scene.paint.Color;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FilenameFilter;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -42,12 +41,21 @@ public class Main extends Application {
 
     public static final int WIDTH = 1500;
     public static final int HEIGHT = 1000;
+    // JPG or PNG compression level / quality
+    public static final float COMPRESSION_QUALITY = 95.0f;
 
     private Scene scene;
     @Override public void start(Stage stage) {
         Map<String,String> opts = getParameters().getNamed();
         int width = parseArgumentAsInt(opts, "width", WIDTH);
         int height = parseArgumentAsInt(opts, "height", HEIGHT);
+        float quality = parseArgumentAsFloat(opts, "quality", COMPRESSION_QUALITY);
+        // The format option is used when no export file is specified.
+        // Otherwise, the format is derived from the name of the export file.
+        String format = opts.get("format");
+        if (format == null) {
+            format = "pdf";
+        }
 
         stage.setTitle("PDF Export Web View");
         List<String> unnamed = getParameters().getUnnamed();
@@ -70,14 +78,14 @@ public class Main extends Application {
             }
         }
 
-        String output = "output.pdf";
+        String exportFile = "output." + format;
         if (unnamed.size()>1) {
-            output = unnamed.get(1);
+            exportFile = unnamed.get(1);
         }
 
         loadCustomFonts(opts);
 
-        Browser browser = new Browser(path, output, width, height);
+        Browser browser = new Browser(path, exportFile, width, height, quality);
         scene = new Scene(browser, width, height, Color.web("#666970"));
         stage.setScene(scene);
         stage.show();
@@ -111,6 +119,10 @@ public class Main extends Application {
 
     private int parseArgumentAsInt(final Map<String, String> opts, String key, int defaultValue) {
         return opts.get(key)!=null?Integer.valueOf(opts.get(key)):defaultValue;
+    }
+    
+    private float parseArgumentAsFloat(final Map<String, String> opts, String key, float defaultValue) {
+        return opts.get(key) != null ? Float.valueOf(opts.get(key)) :defaultValue;
     }
 
     public static void main(String[] args){
