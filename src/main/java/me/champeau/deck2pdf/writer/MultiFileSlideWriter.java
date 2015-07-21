@@ -21,7 +21,7 @@ import java.util.regex.Pattern;
 public abstract class MultiFileSlideWriter extends SlideWriter {
     // ex. %04d
     private static final Pattern NUMBER_FORMAT_PATTERN = Pattern.compile("%0?[1-9]\\d*d");
-    private static final String IMAGE_EXT_REGEX = "\\.(png|jpg)$";
+    private static final String IMAGE_EXT_REGEX = "\\.(png|jp(?:e)?g)$";
 
     protected final String exportFile;
 
