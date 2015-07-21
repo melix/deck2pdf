@@ -15,7 +15,7 @@ def javafxHome = System.getenv('JAVA_HOME')
 dependencies {
     compile files("$javafxHome/jre/lib/jfxrt.jar")
     compile 'com.itextpdf:itextpdf:5.5.1'
-    compile 'org.codehaus.groovy:groovy:2.4.3'
+    compile 'org.codehaus.groovy:groovy:2.4.4'
 }
 
 sourceCompatibility = 1.8
