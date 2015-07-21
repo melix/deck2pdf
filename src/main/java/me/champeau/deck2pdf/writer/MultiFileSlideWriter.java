@@ -31,7 +31,7 @@ public abstract class MultiFileSlideWriter extends SlideWriter {
 
     protected File getOutputFile(final int numSlides, final int current) {
         File slideFile;
-        if (NUMBER_FORMAT_PATTERN.matcher(exportFile).matches()) {
+        if (NUMBER_FORMAT_PATTERN.matcher(exportFile).find()) {
             slideFile = new File(String.format(exportFile, current));
         } else {
             // QUESTION should we enforce a minimum length of the digit for consistency?
