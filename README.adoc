@@ -24,6 +24,14 @@ image::https://travis-ci.org/melix/deck2pdf.png?branch=master[Build Status, link
 
 Will generate a distribution into `build/distributions/` that you can unzip wherever you want.
 
+== Changelog
+
+=== 0.3.0
+
+* Change `group` from `com.github.melix` to `me.champeau.deck2pdf`
+* Add ability to export to PNG or JPEG
+* Require Java 8
+
 == Usage
 
 ----
