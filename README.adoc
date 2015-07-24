@@ -8,7 +8,8 @@
  http://lab.hakim.se/reveal-js[reveal.js], http://bartaz.github.io/impress.js[impress.js],
  http://flowtime-js.marcolago.com/[Flowtime.js],
  http://code.google.com/p/html5slides/[Google html5slides],
- https://github.com/briancavalier/slides[Slide Presentation Framework]
+ https://github.com/briancavalier/slides[Slide Presentation Framework],
+ https://github.com/loicfrering/ruban[ruban]
   or https://github.com/paulrouget/dzslides[DZSlides] slide deck into a PDF file. Deck2PDF is also capable
   of handling other HTML5 libraries as long as you feed it <<CustomProfiles,with a profile>>.
 
@@ -65,6 +66,7 @@ By default, deck2pdf assumes that you are using deck.js, but there more profiles
 * googlehtml5, for http://code.google.com/p/html5slides/[Google html5slides]
 * spf, for https://github.com/briancavalier/slides[Slide Presentation Framework]
 * remarkjs, for https://github.com/gnab/remark[remark.js]
+* ruban, for https://github.com/loicfrering/ruban[ruban]. Note that the ruban profile expects to find the Ruban object in the global variable `ruban`.
 
 For example, to convert a Deck.js slidedeck into PDF:
 
