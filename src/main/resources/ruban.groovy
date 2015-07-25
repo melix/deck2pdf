@@ -3,9 +3,26 @@ setup = {
 }
 
 isLastSlide = {
-    js 'ruban.isLastSlide() && ruban.isLastStep()'
+    if (Boolean.valueOf(options.skipSteps)) {
+        js 'ruban.isLastSlide()'
+    }
+    else {
+        js 'ruban.isLastSlide() && ruban.isLastStep()'
+    }
 }
 
 nextSlide = {
-    js 'ruban.next();'
+    if (Boolean.valueOf(options.skipSteps)) {
+        js '''
+            ruban.nextSlide();
+            if (ruban.hasSteps()) {
+                while (!ruban.isLastStep()) {
+                    ruban.next();
+                }
+            }
+        '''
+    }
+    else {
+        js 'ruban.next();'
+    }
 }

@@ -122,6 +122,15 @@ the options available for such profiles.
 |skipFragments|If `true`, fragments will be ignored, otherwise each fragment will generate an individual slide|false|`deck2pdf --skipFragments=true revealjs.html`
 |=======================================================================
 
+=== ruban
+
+[cols="1,3,1,1",options="header,footer"]
+|=======================================================================
+|Option|Behavior|Default|Example
+|skipSteps|If `true`, instead of generating one PDF page per step, generates one PDF slide per section, with the last step of each section.|false|`deck2pdf --skipSteps=true index.html`
+|=======================================================================
+
+
 [[CustomProfiles]]
 == Support for other HTML5 slideshows
 
