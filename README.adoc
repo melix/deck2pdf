@@ -66,7 +66,7 @@ By default, deck2pdf assumes that you are using deck.js, but there more profiles
 * googlehtml5, for http://code.google.com/p/html5slides/[Google html5slides]
 * spf, for https://github.com/briancavalier/slides[Slide Presentation Framework]
 * remarkjs, for https://github.com/gnab/remark[remark.js]
-* ruban, for https://github.com/loicfrering/ruban[ruban]. Note that the ruban profile expects to find the Ruban object in the global variable `ruban`.
+* ruban, for https://github.com/loicfrering/ruban[ruban]. Note that the ruban profile expects to find the Ruban object in the global variable `ruban`. The minimum version of Ruban is 0.3.2.
 
 For example, to convert a Deck.js slidedeck into PDF:
 
