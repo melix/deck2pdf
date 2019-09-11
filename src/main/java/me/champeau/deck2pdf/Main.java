@@ -14,6 +14,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /*
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -58,7 +59,7 @@ public class Main extends Application {
         }
 
         stage.setTitle("PDF Export Web View");
-        List<String> unnamed = getParameters().getUnnamed();
+        List<String> unnamed = filterUnnamed(getParameters().getUnnamed());
         if (unnamed.isEmpty()) {
             System.err.println("You must provide at least the name of the file to convert");
             System.exit(-1);
@@ -79,7 +80,7 @@ public class Main extends Application {
         }
 
         String exportFile = "output." + format;
-        if (unnamed.size()>1) {
+        if (unnamed.size() > 1) {
             exportFile = unnamed.get(1);
         }
 
@@ -123,6 +124,22 @@ public class Main extends Application {
     
     private float parseArgumentAsFloat(final Map<String, String> opts, String key, float defaultValue) {
         return opts.get(key) != null ? Float.valueOf(opts.get(key)) :defaultValue;
+    }
+
+    private List<String> filterUnnamed(List<String> unnamed) {
+        List<String> result =
+                unnamed
+                        .stream()
+                        .filter( p ->
+                                !p.startsWith("-D") &&
+                                !p.startsWith("me.champeau.deck2pdf.Main") &&
+                                !p.startsWith("-classpath") &&
+                                !p.isBlank() &&
+                                !p.isEmpty()
+                        )
+                        .collect(Collectors.toList());
+
+        return result;
     }
 
     public static void main(String[] args){

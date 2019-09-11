@@ -22,7 +22,6 @@ import groovy.lang.GroovyShell;
 import groovy.lang.MissingPropertyException;
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
-import org.codehaus.groovy.runtime.DefaultGroovyMethods;
 import org.codehaus.groovy.runtime.MethodClosure;
 
 import java.io.Reader;
