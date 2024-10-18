@@ -22,7 +22,6 @@ import groovy.lang.GroovyShell;
 import groovy.lang.MissingPropertyException;
 import javafx.scene.web.WebEngine;
 import netscape.javascript.JSObject;
-import org.codehaus.groovy.runtime.DefaultGroovyMethods;
 import org.codehaus.groovy.runtime.MethodClosure;
 
 import java.io.Reader;
@@ -63,7 +62,7 @@ public class GroovyProfile extends Profile {
     public Object executeJS(String code) {
         try {
             return engine.executeScript(code);
-        } catch (netscape.javascript.JSException e) {
+        } catch (Exception e) {
             System.err.println("Error while executing the following code:");
             System.err.println(code);
             throw e;

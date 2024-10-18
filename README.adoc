@@ -17,24 +17,9 @@ This application relies on a JavaFX application, so you need at least a Java 7 i
 
 == Download
 
-Pre-built binaries for JDK 8 can be download from https://bintray.com/melix/generic-maven/deck2pdf/0.3.0/view#files[Bintray].
-
-If you use Gradle (or any Maven-compatible dependency resolution engine), artifacts are available on JCenter:
-
-```groovy
-repositories {
-    jcenter()
-}
-dependencies {
-   compile 'me.champeau.deck2pdf:deck2pdf:0.3.0'
-}
-```
-
 == Install from source
 
-image::https://travis-ci.org/melix/deck2pdf.png?branch=master[Build Status, link="https://travis-ci.org/melix/deck2pdf"]
-
-Alternatively, you can install deck2pdf from sources.
+You can install deck2pdf from sources:
 
 ----
 ./gradlew distZip
@@ -43,6 +28,14 @@ Alternatively, you can install deck2pdf from sources.
 Will generate a distribution into `build/distributions/` that you can unzip wherever you want.
 
 == Changelog
+
+=== 0.4.0
+
+* Upgrade to Java 23
+* Upgrade to Groovy 4.0.19
+* Upgrade to latest iText PDF
+* Use OpenJFX
+* Prepare for publishing on Maven Central
 
 === 0.3.0
 

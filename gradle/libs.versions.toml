@@ -1,0 +1,15 @@
+[versions]
+groovy = "4.0.19"
+itextpdf = "5.5.13.4"
+
+extra-modules-plugin = "1.9"
+nexus-plugin = "2.0.0"
+javafx-plugin = "0.1.0"
+
+[libraries]
+groovy-core = { module = "org.apache.groovy:groovy", version.ref = "groovy" }
+itextpdf = { module = "com.itextpdf:itextpdf", version.ref = "itextpdf" }
+
+javafx-plugin = { module = "org.openjfx:javafx-plugin", version.ref = "javafx-plugin" }
+nexus-plugin = { module = "io.github.gradle-nexus:publish-plugin", version.ref = "nexus-plugin" }
+extra-modules-plugin = { module = "org.gradlex:extra-java-module-info", version.ref = "extra-modules-plugin" }
